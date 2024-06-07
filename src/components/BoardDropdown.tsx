@@ -1,8 +1,10 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { Board } from '../types';
 
 interface BoardDropdownProps {
-  onSelectBoard: (boardId: number) => void;
+  onSelectBoard: (boardId: number, boardName: string) => void;
 }
 
 const BoardDropdown: React.FC<BoardDropdownProps> = ({ onSelectBoard }) => {
@@ -30,8 +32,9 @@ const BoardDropdown: React.FC<BoardDropdownProps> = ({ onSelectBoard }) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const boardId = parseInt(event.target.value, 10);
+    const boardName = boards.find(board => board.id === boardId)?.name || '';
     setSelectedBoard(boardId);
-    onSelectBoard(boardId);
+    onSelectBoard(boardId, boardName);
   };
 
   return (

@@ -1,22 +1,22 @@
 "use client";
 
-import Head from 'next/head';
-import Board from '../components/Board';
+// app/page.tsx
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import BoardDropdown from '../components/BoardDropdown';
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
+  const router = useRouter();
+
+  const handleSelectBoard = (boardId: number, boardName: string) => {
+    router.push(`/${boardName}`);
+  };
+
   return (
-    <div>
-      <Head>
-        <title>Kanban Board</title>
-        <meta name="description" content="Kanban Board with Next.js, TypeScript, and Tailwind CSS" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className="p-4">
-        <Board />
-      </main>
+    <div className="p-8 bg-gray-100 min-h-screen">
+      <BoardDropdown onSelectBoard={handleSelectBoard} />
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
