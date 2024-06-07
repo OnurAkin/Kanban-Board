@@ -1,5 +1,3 @@
-// components/BoardDropdown.tsx
-
 import React, { useEffect, useState } from 'react';
 import { getAllBoards } from '../services/api';
 
@@ -29,9 +27,13 @@ const BoardDropdown: React.FC<BoardDropdownProps> = ({ onSelectBoard, initialBoa
     fetchBoards();
   }, []);
 
+  useEffect(() => {
+    setSelectedBoard(initialBoardId);
+  }, [initialBoardId]);
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = parseInt(e.target.value, 10);
-    const selectedBoard = boards.find(board => board.id === selectedId);
+    const selectedId = e.target.value;
+    const selectedBoard = boards.find(board => board.id === parseInt(selectedId, 10));
     if (selectedBoard) {
       setSelectedBoard(selectedBoard.id.toString());
       onSelectBoard(selectedBoard.id, selectedBoard.name);
@@ -40,11 +42,11 @@ const BoardDropdown: React.FC<BoardDropdownProps> = ({ onSelectBoard, initialBoa
 
   return (
     <div className="mb-4">
-      <label className="block text-sm font-medium text-gray-700">Board Seç</label>
+
       <select
         value={selectedBoard || ''}
         onChange={handleChange}
-        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       >
         <option value="">Board Seç</option>
         {boards.map((board) => (

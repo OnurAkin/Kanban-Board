@@ -9,14 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/react-dnd": "^3.0.2",
     "next": "14.2.3",
     "react": "^18",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-dnd": "^16.0.1",
     "react-dom": "^18",
     "react-router-dom": "^6.23.1"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.19",
     "eslint": "^8",

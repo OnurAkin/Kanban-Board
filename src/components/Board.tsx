@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Column from './Column';
 import { COLUMN_NAMES, Column as ColumnType, Task } from '../types';
 import { getTasksByBoardId } from '../services/api';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 interface BoardProps {
   boardId: number;
@@ -36,14 +37,39 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
     fetchTasks();
   }, [boardId]);
 
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    const sourceColumnIndex = columns.findIndex(col => col.id === source.droppableId);
+    const destinationColumnIndex = columns.findIndex(col => col.id === destination.droppableId);
+
+    const sourceColumn = columns[sourceColumnIndex];
+    const destinationColumn = columns[destinationColumnIndex];
+
+    const [movedCard] = sourceColumn.cards.splice(source.index, 1);
+    destinationColumn.cards.splice(destination.index, 0, movedCard);
+
+    const newColumns = [...columns];
+    newColumns[sourceColumnIndex] = sourceColumn;
+    newColumns[destinationColumnIndex] = destinationColumn;
+
+    setColumns(newColumns);
+  };
+
   return (
-    <div className="flex justify-center items-start p-8  min-h-screen">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl">
-        {columns.map((column) => (
-          <Column key={column.id} column={column} />
-        ))}
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div className="flex justify-center items-start p-8 min-h-screen">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl">
+          {columns.map((column) => (
+            <Column key={column.id} column={column} />
+          ))}
+        </div>
       </div>
-    </div>
+    </DragDropContext>
   );
 };
 

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import AddBoardButton from '../components/AddBoardButton';
-import BoardDropdown from '../components/BoardDropdown';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import AddBoardButton from "../components/AddBoardButton";
+import BoardDropdown from "../components/BoardDropdown";
 
 const HomePage: React.FC = () => {
   const router = useRouter();
@@ -19,12 +19,20 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="p-8 min-h-screen">
-      <AddBoardButton onBoardAdded={handleBoardAdded} />
-      <BoardDropdown
-        key={updateFlag.toString()}
-        onSelectBoard={handleSelectBoard}
-        initialBoardId={null}
-      />
+      <div className="grid grid-cols-6 gap-4">
+        <div className="col-start-1 col-end-3">
+          <BoardDropdown
+            key={updateFlag.toString()}
+            onSelectBoard={handleSelectBoard}
+            initialBoardId={null}
+          />
+        </div>
+
+        <div className="col-end-9 col-span-2">
+          {" "}
+          <AddBoardButton onBoardAdded={handleBoardAdded} />
+        </div>
+      </div>
     </div>
   );
 };

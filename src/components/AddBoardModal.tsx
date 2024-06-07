@@ -34,14 +34,14 @@ const AddBoardModal: React.FC<AddBoardModalProps> = ({ onBoardAdded, onClose }) 
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg w-96 p-6 relative">
+      <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg w-96 p-6 relative">
         <h2 className="text-xl font-semibold mb-4">Yeni Board Ekle</h2>
         <form onSubmit={handleAddBoard}>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Board Adı</label>
             <input
               type="text"
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               value={boardName}
               onChange={(e) => setBoardName(e.target.value)}
               required

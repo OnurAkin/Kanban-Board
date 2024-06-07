@@ -48,17 +48,26 @@ const BoardPage: React.FC = () => {
 
   return (
     <div className="p-8 min-h-screen">
-      <button
+      <div className='grid grid-cols-6 gap-4'>
+    <div className='col-start-1 col-end-3'>
+    <BoardDropdown
+        key={updateFlag.toString()}
+        onSelectBoard={handleSelectBoard}
+        initialBoardId={selectedBoardId ? selectedBoardId.toString() : null}
+      />
+    </div>
+    <div className='col-end-9 col-span-2'>
+    <button
         onClick={() => setIsModalOpen(true)}
         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
         Yeni Board Ekle
       </button>
-      <BoardDropdown
-        key={updateFlag.toString()}
-        onSelectBoard={handleSelectBoard}
-        initialBoardId={selectedBoardId ? selectedBoardId.toString() : null}
-      />
+  
+    </div>
+      </div>
+     
+
       {selectedBoardId !== null && <Board key={selectedBoardId} boardId={selectedBoardId} />}
       {isModalOpen && (
         <AddBoardModal onBoardAdded={handleBoardAdded} onClose={() => setIsModalOpen(false)} />
