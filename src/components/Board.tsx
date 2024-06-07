@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Column from './Column';
 import { COLUMN_NAMES, Column as ColumnType, Task } from '../types';
-import { getTasksByBoardId } from '../services/api';
+import { getTasksByBoardId, addTask  } from '../services/api';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 interface BoardProps {
@@ -59,13 +59,31 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
 
     setColumns(newColumns);
   };
-
+  const handleAddTask = async (task: { name: string; description: string; boardId: number }) => {
+    try {
+      const result = await addTask(task);
+      if (result.isSuccess) {
+        setColumns((prevColumns) => {
+          const updatedColumns = [...prevColumns];
+          const columnIndex = updatedColumns.findIndex((col) => Number(col.id.split('-')[1]) === task.boardId);
+          if (columnIndex >= 0) {
+            updatedColumns[columnIndex].cards.push(result.data);
+          }
+          return updatedColumns;
+        });
+      } else {
+        console.error('Error adding task:', result.message);
+      }
+    } catch (error) {
+      console.error('Error adding task:', error);
+    }
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="flex justify-center items-start p-8 min-h-screen">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl">
           {columns.map((column) => (
-            <Column key={column.id} column={column} />
+            <Column key={column.id} column={column} onAddTask={handleAddTask} />
           ))}
         </div>
       </div>
