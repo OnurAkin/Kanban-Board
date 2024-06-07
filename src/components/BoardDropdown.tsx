@@ -5,11 +5,12 @@ import { Board } from '../types';
 
 interface BoardDropdownProps {
   onSelectBoard: (boardId: number, boardName: string) => void;
+  initialBoardId?: number | null;
 }
 
-const BoardDropdown: React.FC<BoardDropdownProps> = ({ onSelectBoard }) => {
+const BoardDropdown: React.FC<BoardDropdownProps> = ({ onSelectBoard, initialBoardId = null }) => {
   const [boards, setBoards] = useState<Board[]>([]);
-  const [selectedBoard, setSelectedBoard] = useState<number | null>(null);
+  const [selectedBoard, setSelectedBoard] = useState<number | null>(initialBoardId);
 
   useEffect(() => {
     const fetchBoards = async () => {

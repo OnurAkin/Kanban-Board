@@ -1,8 +1,9 @@
-"use client";
-// app/board/[boardName]/page.tsx
+'use client';
+
 import React, { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Board from '../../components/Board';
+import BoardDropdown from '../../components/BoardDropdown';
 
 const BoardPage: React.FC = () => {
   const router = useRouter();
@@ -35,8 +36,13 @@ const BoardPage: React.FC = () => {
     }
   }, [boardName]);
 
+  const handleSelectBoard = (boardId: number, boardName: string) => {
+    router.push(`/${boardName}`);
+  };
+
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
+      <BoardDropdown onSelectBoard={handleSelectBoard} initialBoardId={selectedBoardId} />
       {selectedBoardId && <Board boardId={selectedBoardId} />}
     </div>
   );

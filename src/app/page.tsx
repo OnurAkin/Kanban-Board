@@ -1,6 +1,5 @@
-"use client";
+'use client';
 
-// app/page.tsx
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import BoardDropdown from '../components/BoardDropdown';
