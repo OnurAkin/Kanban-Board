@@ -1,23 +1,21 @@
-'use client';
+// components/BoardDropdown.tsx
 
-import React, { useState, useEffect } from 'react';
-import { Board } from '../types';
+import React, { useEffect, useState } from 'react';
+import { getAllBoards } from '../services/api';
 
 interface BoardDropdownProps {
   onSelectBoard: (boardId: number, boardName: string) => void;
-  initialBoardId?: number | null;
+  initialBoardId: string | null;
 }
 
-const BoardDropdown: React.FC<BoardDropdownProps> = ({ onSelectBoard, initialBoardId = null }) => {
-  const [boards, setBoards] = useState<Board[]>([]);
-  const [selectedBoard, setSelectedBoard] = useState<number | null>(initialBoardId);
+const BoardDropdown: React.FC<BoardDropdownProps> = ({ onSelectBoard, initialBoardId }) => {
+  const [boards, setBoards] = useState<{ id: number; name: string }[]>([]);
+  const [selectedBoard, setSelectedBoard] = useState<string | null>(initialBoardId);
 
   useEffect(() => {
     const fetchBoards = async () => {
       try {
-        const response = await fetch('https://apitodo.azurewebsites.net/Board/GetAll');
-        const result = await response.json();
-
+        const result = await getAllBoards();
         if (result.isSuccess) {
           setBoards(result.data);
         } else {
@@ -31,27 +29,24 @@ const BoardDropdown: React.FC<BoardDropdownProps> = ({ onSelectBoard, initialBoa
     fetchBoards();
   }, []);
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const boardId = parseInt(event.target.value, 10);
-    const boardName = boards.find(board => board.id === boardId)?.name || '';
-    setSelectedBoard(boardId);
-    onSelectBoard(boardId, boardName);
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = parseInt(e.target.value, 10);
+    const selectedBoard = boards.find(board => board.id === selectedId);
+    if (selectedBoard) {
+      setSelectedBoard(selectedBoard.id.toString());
+      onSelectBoard(selectedBoard.id, selectedBoard.name);
+    }
   };
 
   return (
     <div className="mb-4">
-      <label htmlFor="board-select" className="block text-sm font-medium text-gray-700">
-        Select a Board
-      </label>
+      <label className="block text-sm font-medium text-gray-700">Board Seç</label>
       <select
-        id="board-select"
-        value={selectedBoard ?? ''}
+        value={selectedBoard || ''}
         onChange={handleChange}
-        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
       >
-        <option value="" disabled>
-          Select a board
-        </option>
+        <option value="">Board Seç</option>
         {boards.map((board) => (
           <option key={board.id} value={board.id}>
             {board.name}

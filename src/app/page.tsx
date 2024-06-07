@@ -18,7 +18,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
+    <div className="p-8 min-h-screen">
       <AddBoardButton onBoardAdded={handleBoardAdded} />
       <BoardDropdown
         key={updateFlag.toString()}

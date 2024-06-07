@@ -1,4 +1,7 @@
+// components/AddBoardModal.tsx
+
 import React, { useState } from 'react';
+import { addBoard } from '../services/api';
 
 interface AddBoardModalProps {
   onBoardAdded: () => void;
@@ -14,15 +17,7 @@ const AddBoardModal: React.FC<AddBoardModalProps> = ({ onBoardAdded, onClose }) 
     setIsLoading(true);
 
     try {
-      const response = await fetch('https://apitodo.azurewebsites.net/Board/Add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: boardName }),
-      });
-
-      const result = await response.json();
+      const result = await addBoard(boardName);
 
       if (result.isSuccess) {
         onBoardAdded();
