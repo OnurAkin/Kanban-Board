@@ -12,20 +12,25 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
   const [columns, setColumns] = useState<ColumnType[]>([]);
 
   useEffect(() => {
-    const fetchTasks = async () => {
+    const fetchData = async () => {
       try {
         const result = await getTasksByBoardId(boardId);
 
         if (result.isSuccess) {
           const data: Task[] = result.data;
 
-          const initialData: ColumnType[] = COLUMN_NAMES.map((name) => ({
-            id: `column-${COLUMN_NAMES.indexOf(name) + 1}`,
-            title: name,
-            cards: data.filter((task) => task.status === name),
-          }));
+          // Tüm panoların adlarını tek bir API çağrısıyla al
+          // Ardından, panoları ve ilgili görevleri ayarla
+          const newColumns: ColumnType[] = COLUMN_NAMES.map((name) => {
+            const cards = data.filter((task) => task.status === name);
+            return {
+              id: `column-${COLUMN_NAMES.indexOf(name) + 1}`,
+              title: name,
+              cards,
+            };
+          });
 
-          setColumns(initialData);
+          setColumns(newColumns);
         } else {
           console.error('Error fetching tasks:', result.message);
         }
@@ -34,7 +39,7 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
       }
     };
 
-    fetchTasks();
+    fetchData();
   }, [boardId]);
 
   const onDragEnd = (result: DropResult) => {
