@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import Card from './Card';
-import { Column as ColumnType } from '../types';
+import { Column as ColumnType, ColumnName } from '../types';
 import AddTaskModal from './AddTaskModal';
 
 interface ColumnProps {
   column: ColumnType;
-  onAddTask: (task: { name: string; description: string; boardId: number }) => void;
+  onAddTask: (task: { name: string; description: string; boardId: number; status: ColumnName }) => void;
 }
 
 const Column: React.FC<ColumnProps> = ({ column, onAddTask }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleAddTask = (task: { name: string; description: string }) => {
-    onAddTask({ ...task, boardId: Number(column.id.split('-')[1]) });
+    onAddTask({ ...task, boardId: Number(column.id.split('-')[1]), status: column.title });
   };
+
   return (
     <Droppable droppableId={column.id}>
       {(provided) => (
@@ -22,7 +24,7 @@ const Column: React.FC<ColumnProps> = ({ column, onAddTask }) => {
           ref={provided.innerRef}
           className="p-4 bg-neutral-800 rounded-lg shadow-md w-full max-w-xs sm:max-w-md md:max-w-sm lg:max-w-xs xl:max-w-md"
         >
-         <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-white">{column.title}</h2>
             <button
               onClick={() => setIsModalOpen(true)}

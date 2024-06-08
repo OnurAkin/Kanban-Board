@@ -1,4 +1,4 @@
-// services/api.ts
+import { COLUMN_NAMES, ColumnName } from '../types';
 
 const API_BASE_URL = 'https://apitodo.azurewebsites.net';
 
@@ -29,13 +29,14 @@ export const getTasksByBoardId = async (boardId: number) => {
   return response.json();
 };
 
-export const addTask = async (task: { name: string; description: string; boardId: number }) => {
-  const response = await fetch('https://apitodo.azurewebsites.net/Assignment/Add', {
+export const addTask = async (task: { name: string; description: string; boardId: number; status: ColumnName }) => {
+  const statusIndex = COLUMN_NAMES.indexOf(task.status) + 1; // Status indeksini 1'den başlatmak için 1 ekleyin
+  const response = await fetch(`${API_BASE_URL}/Assignment/Add`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(task),
+    body: JSON.stringify({ ...task, status: statusIndex }),
   });
   return response.json();
 };

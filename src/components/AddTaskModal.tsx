@@ -1,20 +1,22 @@
-// components/AddTaskModal.tsx
 import React, { useState } from 'react';
+import { COLUMN_NAMES, ColumnName } from '../types';
 
 interface AddTaskModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (task: { name: string; description: string }) => void;
+  onSubmit: (task: { name: string; description: string; status: ColumnName }) => void;
 }
 
 const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose, onSubmit }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [status, setStatus] = useState<ColumnName>(COLUMN_NAMES[0]); // Default to the first status
 
   const handleSubmit = () => {
-    onSubmit({ name, description });
+    onSubmit({ name, description, status });
     setName('');
     setDescription('');
+    setStatus(COLUMN_NAMES[0]); // Reset to default status
     onClose();
   };
 
@@ -37,6 +39,17 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose, onSubmit }
           onChange={(e) => setDescription(e.target.value)}
           className="w-full mb-4 p-2 border rounded"
         ></textarea>
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value as ColumnName)}
+          className="w-full mb-4 p-2 border rounded"
+        >
+          {COLUMN_NAMES.map((status) => (
+            <option key={status} value={status}>
+              {status}
+            </option>
+          ))}
+        </select>
         <div className="flex justify-end">
           <button
             onClick={onClose}

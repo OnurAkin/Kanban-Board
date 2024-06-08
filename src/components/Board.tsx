@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Column from './Column';
-import { COLUMN_NAMES, Column as ColumnType, Task } from '../types';
-import { getTasksByBoardId, addTask  } from '../services/api';
+import { COLUMN_NAMES, Column as ColumnType, Task, ColumnName } from '../types';
+import { getTasksByBoardId, addTask } from '../services/api';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 interface BoardProps {
@@ -19,8 +19,8 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
         if (result.isSuccess) {
           const data: Task[] = result.data;
 
-          const initialData: ColumnType[] = COLUMN_NAMES.map((name, index) => ({
-            id: `column-${index + 1}`,
+          const initialData: ColumnType[] = COLUMN_NAMES.map((name) => ({
+            id: `column-${COLUMN_NAMES.indexOf(name) + 1}`,
             title: name,
             cards: data.filter((task) => task.status === name),
           }));
@@ -59,13 +59,15 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
 
     setColumns(newColumns);
   };
-  const handleAddTask = async (task: { name: string; description: string; boardId: number }) => {
+
+  const handleAddTask = async (task: { name: string; description: string; boardId: number; status: ColumnName }) => {
     try {
+      task.boardId = boardId;
       const result = await addTask(task);
       if (result.isSuccess) {
         setColumns((prevColumns) => {
           const updatedColumns = [...prevColumns];
-          const columnIndex = updatedColumns.findIndex((col) => Number(col.id.split('-')[1]) === task.boardId);
+          const columnIndex = updatedColumns.findIndex((col) => col.title === task.status);
           if (columnIndex >= 0) {
             updatedColumns[columnIndex].cards.push(result.data);
           }
@@ -78,6 +80,7 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
       console.error('Error adding task:', error);
     }
   };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="flex justify-center items-start p-8 min-h-screen">
