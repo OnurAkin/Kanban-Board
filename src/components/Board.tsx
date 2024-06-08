@@ -74,7 +74,10 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
           const updatedColumns = [...prevColumns];
           const columnIndex = updatedColumns.findIndex((col) => col.title === task.status);
           if (columnIndex >= 0) {
-            updatedColumns[columnIndex].cards.push(result.data);
+            // Daha önce aynı görev eklenmişse eklemeyi atla
+            if (!updatedColumns[columnIndex].cards.find((card) => card.id === result.data.id)) {
+              updatedColumns[columnIndex].cards.push(result.data);
+            }
           }
           return updatedColumns;
         });
