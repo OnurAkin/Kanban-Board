@@ -40,3 +40,15 @@ export const addTask = async (task: { name: string; description: string; boardId
   });
   return response.json();
 };
+
+// Güncellenmiş deleteTask fonksiyonu
+export const deleteTask = async (taskId: number) => {
+  const response = await fetch(`${API_BASE_URL}/Assignment/Delete`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: taskId }) // id'yi body içinde gönderiyoruz
+  });
+  return response.json();
+};

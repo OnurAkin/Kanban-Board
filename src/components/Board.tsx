@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Column from './Column';
 import { COLUMN_NAMES, Column as ColumnType, Task, ColumnName } from '../types';
-import { getTasksByBoardId, addTask } from '../services/api';
+import { getTasksByBoardId, addTask, deleteTask } from '../services/api';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 interface BoardProps {
@@ -19,8 +19,6 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
         if (result.isSuccess) {
           const data: Task[] = result.data;
 
-          // Tüm panoların adlarını tek bir API çağrısıyla al
-          // Ardından, panoları ve ilgili görevleri ayarla
           const newColumns: ColumnType[] = COLUMN_NAMES.map((name) => {
             const cards = data.filter((task) => task.status === name);
             return {
@@ -74,10 +72,7 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
           const updatedColumns = [...prevColumns];
           const columnIndex = updatedColumns.findIndex((col) => col.title === task.status);
           if (columnIndex >= 0) {
-            // Daha önce aynı görev eklenmişse eklemeyi atla
-            if (!updatedColumns[columnIndex].cards.find((card) => card.id === result.data.id)) {
-              updatedColumns[columnIndex].cards.push(result.data);
-            }
+            updatedColumns[columnIndex].cards.push(result.data);
           }
           return updatedColumns;
         });
@@ -89,12 +84,31 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
     }
   };
 
+  const handleDeleteTask = async (taskId: number) => {
+    try {
+      const result = await deleteTask(taskId);
+      if (result.isSuccess) {
+        setColumns((prevColumns) => {
+          const updatedColumns = prevColumns.map((col) => ({
+            ...col,
+            cards: col.cards.filter((card) => card.id !== taskId),
+          }));
+          return updatedColumns;
+        });
+      } else {
+        console.error("Error deleting task:", result.message);
+      }
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="flex justify-center items-start p-8 min-h-screen">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl">
           {columns.map((column) => (
-            <Column key={column.id} column={column} onAddTask={handleAddTask} />
+            <Column key={column.id} column={column} onAddTask={handleAddTask} onDeleteTask={handleDeleteTask} />
           ))}
         </div>
       </div>
