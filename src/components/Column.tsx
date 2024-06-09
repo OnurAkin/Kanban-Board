@@ -1,8 +1,10 @@
+// Column.tsx
 import React, { useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import Card from "./Card";
 import { Column as ColumnType, ColumnName } from "../types";
 import AddTaskModal from "./AddTaskModal";
+import { COLUMN_COLORS } from "../types";
 
 interface ColumnProps {
   column: ColumnType;
@@ -12,7 +14,7 @@ interface ColumnProps {
     boardId: number;
     status: ColumnName;
   }) => void;
-  onDeleteTask: (taskId: number) => void; // onDeleteTask fonksiyonu prop olarak alınıyor
+  onDeleteTask: (taskId: number) => void;
 }
 
 const Column: React.FC<ColumnProps> = ({ column, onAddTask, onDeleteTask }) => {
@@ -32,7 +34,7 @@ const Column: React.FC<ColumnProps> = ({ column, onAddTask, onDeleteTask }) => {
         <div
           {...provided.droppableProps}
           ref={provided.innerRef}
-          className="p-4 bg-neutral-800 rounded-lg shadow-md w-full max-w-xs sm:max-w-md md:max-w-sm lg:max-w-xs xl:max-w-md"
+          className="p-4 rounded-lg dark:bg-gray-700 shadow-md w-full max-w-xs sm:max-w-md md:max-w-sm lg:max-w-xs xl:max-w-md"
         >
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-white">{column.title}</h2>
@@ -65,9 +67,13 @@ const Column: React.FC<ColumnProps> = ({ column, onAddTask, onDeleteTask }) => {
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    className="bg-gray-700 p-2 rounded-md"
+                    className={`rounded-md bg-${COLUMN_COLORS[column.title]}`}
                   >
-                    <Card card={card} onDelete={() => onDeleteTask(card.id)} />
+                    <Card
+                      card={card}
+                      onDelete={() => onDeleteTask(card.id)}
+                      color={COLUMN_COLORS[column.title]}
+                    />
                   </div>
                 )}
               </Draggable>

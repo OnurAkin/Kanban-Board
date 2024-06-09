@@ -1,22 +1,24 @@
-export const COLUMN_NAMES = ['Backlog', 'To Do', 'In Progress', 'Done'] as const;
-export type ColumnName = typeof COLUMN_NAMES[number];
+// types.ts
+export type ColumnName = "To Do" | "In Progress" | "Done" | "Archived";
 
-export interface Task {
+export const COLUMN_NAMES: ColumnName[] = ["To Do", "In Progress", "Done", "Archived"];
+
+export const COLUMN_COLORS: { [key in ColumnName]: string } = {
+  "To Do": "#ff6f61", // Red
+  "In Progress": "#ffcc00", // Yellow
+  "Done": "#4caf50", // Green
+  "Archived": "#9e9e9e" // Grey
+};
+
+export interface Card {
   id: number;
   name: string;
   description: string;
-  boardId: number;
   status: ColumnName;
 }
 
 export interface Column {
   id: string;
   title: ColumnName;
-  cards: Task[];
-}
-
-export interface Board {
-  id: number;
-  name: string;
-  status: boolean;
+  cards: Card[];
 }

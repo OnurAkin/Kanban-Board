@@ -1,3 +1,4 @@
+// Board.tsx
 import React, { useEffect, useState } from 'react';
 import Column from './Column';
 import { COLUMN_NAMES, Column as ColumnType, Task, ColumnName } from '../types';
@@ -54,6 +55,8 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
     const destinationColumn = columns[destinationColumnIndex];
 
     const [movedCard] = sourceColumn.cards.splice(source.index, 1);
+    movedCard.status = destinationColumn.title; // Güncel sütun ismini karta aktarın
+
     destinationColumn.cards.splice(destination.index, 0, movedCard);
 
     const newColumns = [...columns];
@@ -105,10 +108,15 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex justify-center items-start p-8 min-h-screen">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl">
+      <div className="flex justify-center items-start p-4 sm:p-6 md:p-8 min-h-screen">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {columns.map((column) => (
-            <Column key={column.id} column={column} onAddTask={handleAddTask} onDeleteTask={handleDeleteTask} />
+            <Column
+              key={column.id}
+              column={column}
+              onAddTask={handleAddTask}
+              onDeleteTask={handleDeleteTask}
+            />
           ))}
         </div>
       </div>
