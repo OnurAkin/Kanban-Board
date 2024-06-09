@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "e72111fa-ac58-4e63-859f-ef7786244fd3",
+		"name": "Board",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12364181"
+	},
+	"item": [
+		{
+			"name": "Add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://apitodo.azurewebsites.net/Board/Add",
+					"protocol": "https",
+					"host": [
+						"apitodo",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"Board",
+						"Add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAll",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://apitodo.azurewebsites.net/Board/GetAll",
+					"protocol": "https",
+					"host": [
+						"apitodo",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"Board",
+						"GetAll"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

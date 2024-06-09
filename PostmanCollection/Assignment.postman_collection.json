@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "abc7df3d-3783-46e4-8732-e0a6d74d388c",
+		"name": "Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12364181"
+	},
+	"item": [
+		{
+			"name": "GetAll",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"status\": 0,\r\n  \"name\": \"string\",\r\n  \"boardId\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://apitodo.azurewebsites.net/Assignment/GetAll",
+					"protocol": "https",
+					"host": [
+						"apitodo",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"Assignment",
+						"GetAll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"boardId\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://apitodo.azurewebsites.net/Assignment/Add",
+					"protocol": "https",
+					"host": [
+						"apitodo",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"Assignment",
+						"Add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 0,\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"status\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://apitodo.azurewebsites.net/Assignment/Update",
+					"protocol": "https",
+					"host": [
+						"apitodo",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"Assignment",
+						"Update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/Assignment/Delete",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"Assignment",
+						"Delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FilterByStatus",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"status\": 0,\r\n  \"name\": \"string\",\r\n  \"boardId\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/Assignment/FilterByStatus",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"Assignment",
+						"FilterByStatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FilterByName",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"status\": 0,\r\n  \"name\": \"string\",\r\n  \"boardId\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/Assignment/FilterByName",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"Assignment",
+						"FilterByName"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
