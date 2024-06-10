@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({ card, onDelete, color }) => {
     <div className={`p-4 rounded-lg shadow-md text-white`} style={{ backgroundColor: color }}>
       {/* Kartın başlık kısmını ve silme butonunu içerir. */}
       <div className="flex justify-between items-center mb-2">
-        <h3 className="text-md font-semibold break-words">{card.name}</h3>
+        <h3 className="text-md font-semibold break-all">{card.name}</h3>
         <button
           onClick={onDelete} // Butona tıklandığında onDelete işlevini çağırır.
           type="button"
