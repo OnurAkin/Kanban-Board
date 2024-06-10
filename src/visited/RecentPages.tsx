@@ -15,13 +15,16 @@ const RecentPages: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-4 right-4 p-4 bg-gray-800 text-white rounded-lg shadow-lg w-48 z-50">
-      <h4 className="font-bold mb-2">Son Gezilenler</h4>
-      <ul className="space-y-1 text-sm">
+    <div className="block max-w-sm p-6 dark:bg-gray-700 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+      <h4 className="font-semibold text-lg mb-3 flex items-center justify-between">
+        <span>Son Gezilenler</span>
+
+      </h4>
+      <ul className="space-y-2 text-sm list-disc list-inside">
         {recentPages.map((page, index) => (
-          <li key={index}>
+          <li key={index} className="hover:bg-gray-100 dark:hover:bg-gray-700 rounded px-2 py-1">
             <Link href={page} className="hover:underline">
-              {page === '/' ? 'Ana Sayfa' : page}
+              {page === '/' ? 'Ana Sayfa' : decodeURIComponent(page).replace(/^\//, '')}
             </Link>
           </li>
         ))}
